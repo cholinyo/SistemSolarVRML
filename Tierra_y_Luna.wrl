@@ -1,0 +1,131 @@
+#VRML V2.0 utf8
+
+#tercera animación
+
+
+ Anchor	{
+	 url "http://es.wikipedia.org/wiki/Tierra"
+	 children [
+		 
+DEF Tierra Transform{
+
+children [
+
+Shape{
+
+appearance Appearance {
+
+texture ImageTexture {
+	   
+url [ "Texturas/tierra.jpg"]
+
+}
+
+}
+
+geometry Sphere {}
+
+}
+
+]
+
+}
+]
+}
+
+DEF TIMER TimeSensor {
+
+loop TRUE
+
+cycleInterval 60
+
+startTime 1 #comienzo automático
+
+stopTime 0 #comienzo automático
+
+}
+
+
+#la esfera rota sobre sí misma
+
+DEF SPHERE_ROTATE OrientationInterpolator {
+
+key [ 0, 0.5, 1 ]
+
+keyValue [ 0 1 0 0, 0 1 0 3.14, 0 1 0 6.28 ]
+
+}
+
+DEF SPHERE_TRANSLATION PositionInterpolator {
+
+key [ 0,0.15,0.25,0.40,0.50,0.65, 0.75,0.90,1 ]
+
+keyValue [2 0 0
+	1.5 1.58 0 ,
+    0 2 0,
+	-1.5 1.58 0,
+	-2 0 0,
+	-1.5 -1.58 0
+    0 -2 0,
+	1.5 -1.58 0
+    2 0 0 ]
+
+}
+DEF TIMER2 TimeSensor {
+
+loop TRUE
+
+cycleInterval 10
+
+startTime 1 #comienzo automático
+
+stopTime 0 #comienzo automático
+
+}
+
+#Primero la ruta del timer en laPpositionInterpolator
+
+ROUTE TIMER.fraction_changed TO SPHERE_ROTATE.set_fraction
+
+#luego el interpolator en el transform
+
+ROUTE SPHERE_ROTATE.value_changed TO Tierra.set_rotation
+
+ 
+
+ Anchor	{
+	 url "http://es.wikipedia.org/wiki/luna"
+	 children [
+		 
+DEF	Luna
+Transform {
+	translation	2 0 0
+	
+	children [
+	Shape {
+		appearance Appearance {
+			texture	ImageTexture {
+				url	"texturas/Luna.jpg"
+			}
+		}
+		
+		geometry Sphere	{
+			radius 0.4
+		}
+	}]
+}
+]
+}
+
+#Primero la ruta del timer en laPpositionInterpolator
+
+ROUTE TIMER.fraction_changed TO SPHERE_ROTATE.set_fraction
+
+#luego el interpolator en el transform
+
+ROUTE SPHERE_ROTATE.value_changed TO Luna.set_rotation
+
+#Primero la ruta del timer en la positioninterpolator
+ROUTE  TIMER2.fraction_changed TO SPHERE_TRANSLATION.set_fraction
+ROUTE SPHERE_TRANSLATION.value_changed TO Luna.translation
+														

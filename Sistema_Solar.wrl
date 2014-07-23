@@ -1,0 +1,544 @@
+#VRML V2.0 utf8
+
+#Vicente Caruncho Ramos
+#Planetas y sol
+
+
+
+##Sol
+
+ Anchor	{
+	 url "http://es.wikipedia.org/wiki/Sol"
+	 children [
+		 
+ 
+
+DEF	Sol Transform {
+	translation	0 0 0
+	rotation 0 0 1 0
+
+	children [
+		Shape {
+			appearance Appearance {
+				material DEF ColorCambiante Material {
+					shininess 1
+					emissiveColor 1 1 0
+				}
+			}
+			geometry Sphere	{
+				radius 20
+			}
+
+		}
+		
+		
+	PointLight {   # 
+		intensity 1
+		color 1 1 0
+		ambientIntensity 1000
+		radius 60
+		on TRUE
+		location 0 0 0
+
+
+	}
+	  #SONIDO
+
+  
+	Sound	{
+		maxBack	 70
+		minBack	70
+		maxFront 70
+		minFront 70
+	  
+	  source AudioClip {
+		  url "Sonidos/sol1.wav"
+		  startTime	1
+		  stopTime 0
+		  loop TRUE
+	  }
+
+	  intensity	1
+
+  }
+
+	]
+}
+]}
+
+
+DEF	TimerColorSol TimeSensor {
+	loop TRUE
+	cycleInterval 3 #3 segundos
+}
+
+DEF	Color_Sol ColorInterpolator	{
+	key	[0, 0.3, 0.6, 1]
+	keyValue [1 1 0, 0.95 1 0, 0.95 0.95 0, 1 1 1]
+}
+DEF	Emision_Sol ColorInterpolator	{
+	key	[0, 0.3, 0.6, 1]
+	keyValue [1 1 0, 0.95 1 0, 0.75 1 0, 0.80 1 1]
+}
+
+ROUTE TimerColorSol.fraction_changed TO	Color_Sol.set_fraction
+ROUTE Color_Sol.value_changed TO ColorCambiante.diffuseColor
+ROUTE Emision_Sol.value_changed	TO ColorCambiante.emissiveColor
+
+
+
+##Tierra y luna
+
+
+ Anchor	{
+	 url "http://es.wikipedia.org/wiki/Sol"
+	 children [
+		 
+ 
+DEF	Tierra 
+Transform {
+	scale 1 1 1
+ 	children [
+		Transform {
+
+  		    rotation 1 0 0 0
+			translation	50 0 0
+
+	
+				scale 15 15 15
+        		children [
+				Inline {
+					url	"Tierra_y_Luna.wrl"
+				}
+			]
+		}
+	]
+}
+]
+}
+
+DEF SPHERE_ROTATE OrientationInterpolator {
+
+key [ 0, 0.5, 1 ]
+
+keyValue [ 0 1 0 0, 0 1 0 3.14, 0 1 0 6.28 ]	 
+
+}
+
+DEF T_Traslacion_Tierra TimeSensor {
+
+loop TRUE
+
+cycleInterval 20
+
+startTime 1 #comienzo automtico
+
+stopTime 0 #comienzo automtico
+
+}				
+
+
+DEF TIERRA_TRANSLATION PositionInterpolator {
+
+key [ 0,0.15,0.25,0.40,0.50,0.65, 0.75,0.90,1 ]
+
+keyValue [120 0 0
+	,110 0 -110
+	,0 0 -110
+	,-140 0 -100
+	,-160 0 0
+	,-140 0 90
+	,-60 0 110
+	,100 0 100
+    ,110 0 0 
+    ]
+
+}
+
+#Primero la ruta del timer en laPpositionInterpolator
+
+ROUTE T_Traslacion_Tierra.fraction_changed TO TIERRA_TRANSLATION.set_fraction
+
+#luego el interpolator en el transform					   
+
+ROUTE TIERRA_TRANSLATION.value_changed TO Tierra.translation
+
+
+
+##Mercurio
+ Anchor	{
+	 url "http://es.wikipedia.org/wiki/Mercurio"
+	 children [
+		 
+ 
+
+DEF	MERCURIO Transform {
+	translation	30 3 0
+	rotation 0 0 1 0
+	children [Shape {
+		appearance Appearance {
+			texture	ImageTexture {
+				url	"texturas/mercurio.jpg"
+			}
+			material Material {
+				diffuseColor 0.80 0.2 0
+			}
+		}
+		geometry Sphere	{
+			radius 5
+		}
+	}]
+ }
+
+]
+}
+
+
+DEF T_TRASLACION_MERCURIO TimeSensor {
+
+loop TRUE
+
+cycleInterval 15
+
+startTime 1 #comienzo automtico
+
+stopTime 0 #comienzo automtico
+
+}				
+
+
+DEF MERCURIO_TRANSLATION PositionInterpolator {
+
+key [ 0,0.15,0.25,0.40,0.50,0.65, 0.75,0.90,1 ]
+
+keyValue [
+	30 3 0
+	,27 3 -25
+	,0 3	-30
+	,-55 3 -27
+	,-60 3 0
+	,-30 3 27
+	,0 3 30
+	,27 3 25
+	,30 3 0	  
+	 ]
+
+}
+
+
+ROUTE T_TRASLACION_MERCURIO.fraction_changed TO MERCURIO_TRANSLATION.set_fraction
+ROUTE MERCURIO_TRANSLATION.value_changed	TO MERCURIO.translation
+
+
+
+#------------------------------------------------------------------------
+
+
+##Venus
+
+ Anchor	{
+	 url "http://es.wikipedia.org/wiki/Venus"
+	 children [
+		 
+ 
+
+DEF	VENUS Transform {
+	translation	60 5 0
+	rotation 0 0 1 0
+	children [Shape {
+		appearance Appearance {
+			texture	ImageTexture {
+				url	"texturas/venus.jpg"
+			}
+		}
+		geometry Sphere	{
+			radius 6
+		}
+	}]
+ }
+
+]
+}
+
+
+DEF T_TRASLACION_VENUS TimeSensor {
+
+loop TRUE
+
+cycleInterval 25
+
+startTime 1 #comienzo automtico
+
+stopTime 0 #comienzo automtico
+
+}				
+
+
+DEF VENUS_TRANSLATION PositionInterpolator {
+
+key [ 0,0.15,0.25,0.40,0.50,0.65, 0.75,0.90,1 ]
+
+keyValue [
+	90 5 0
+	,84 5 -80
+	,0 5	-90
+	,-140 5 -84
+	,-160 5 0
+	,-90 5 84
+	,0 5 90
+	,84 5 80
+	,90 5 0	  
+	 ]
+
+}
+
+
+ROUTE T_TRASLACION_VENUS.fraction_changed TO VENUS_TRANSLATION.set_fraction
+ROUTE VENUS_TRANSLATION.value_changed	TO VENUS.translation
+
+
+#------------------------------------------------------------------------
+
+
+##Marte
+
+ Anchor	{
+	 url "http://es.wikipedia.org/wiki/Marte"
+	 children [
+		 
+ 
+
+###***********************************
+##VISTAS Y ENTORNO
+#######################
+Viewpoint 
+  {
+  orientation 0 0 1 0	
+  position 0 0 300
+  description "inicial"
+  }
+
+
+  Viewpoint 
+  {
+  orientation 0 0 1 0	
+  position 0 0 50
+  description "Tierra"
+  }
+
+DEF frontal Transform 
+  {
+  children 
+    [
+    Shape 
+      {
+      appearance       Appearance 
+	{
+	material 	Material 
+	  {
+	  }
+	texture 	ImageTexture 
+	  {
+	  url 
+	    [
+	    "texturas/espacio6.JpG"
+	    ]
+	  }
+	}
+      geometry       Box 
+	{
+	size 1000 1000 0
+	}
+      }
+    ]
+  translation 0 0 -500
+  }
+
+DEF dfreta Transform 
+  {
+  children 
+    [ 
+    Shape 
+      {
+      appearance       Appearance 
+	{
+	material 	Material 
+	  {
+	  }
+	texture 	ImageTexture 
+	  {
+	  url 
+	    [
+	    "texturas/espacio2.JPG"
+	    ]
+	  }
+	}
+      geometry       Box 
+	{
+	size 0 1000 1000
+	}
+      }
+    ]
+  translation 500 0 0
+  }
+
+DEF sota Transform 
+  {
+  children 
+    [
+    Shape 
+      {
+      appearance       Appearance 
+	{
+	material 	Material 
+	  {
+	  }
+	texture 	ImageTexture 
+	  {
+	  url 
+	    [
+	    "texturas/espacio3.JPG"
+	    ]
+	  }
+	}
+      geometry       Box 
+	{
+	size 1000 0 1000
+	}
+      }
+    ]
+  translation 0 -500 0
+  }
+
+DEF adal Transform 
+  {
+  children 
+    [
+    Shape 
+      {
+      appearance       Appearance 
+	{
+	material 	Material 
+	  {
+	  }
+	texture 	ImageTexture 
+	  {
+	  url 
+	    [
+	    "texturas/espacio4.JPG"
+	    ]
+	  }
+	}
+      geometry       Box 
+	{
+	size 1000 0 1000
+	}
+      }
+    ]
+  translation 0 -500 0
+  }
+
+Transform 
+  {
+  children 
+    [
+    Shape 
+      {
+      appearance       Appearance 
+	{
+	material 	Material 
+	  {
+	  }
+	texture 	ImageTexture 
+	  {
+	  url 
+	    [
+	    "texturas/espacio5.JPG"
+	    ]
+	  }
+	}
+      geometry       Box 
+	{
+	size 0 1000 1000
+	}
+      }
+    ]
+  translation -500 0 0
+  }
+
+DEF derera Transform 
+  {
+  children 
+    [
+    Shape 
+      {
+      appearance       Appearance 
+	{
+	material 	Material 
+	  {
+	  }
+	texture 	ImageTexture 
+	  {
+	  url 
+	    [  
+	    "texturas/espacio6.JPG"
+	    ]
+	  }
+	}
+      geometry       Box 
+	{
+	size 1000 1000 0
+	}
+      }
+    ]
+  translation 0 0 500
+  }
+
+NavigationInfo 
+  {
+
+  speed 10
+  type 
+    [
+    "EXAMINE"
+    "WALK"
+    "ANY"
+    ""
+    ]
+#	headlight FALSE	   Se queda muyoscuro sin luz de minero
+  }
+
+
+  Fog {
+color 1 1 1
+fogType "LINEAR"
+visibilityRange 0
+}
+
+###############################################################
+
+
+
+
+  Sound { 
+	  maxBack 400
+	  minBack 400
+	  maxFront 400
+	  minFront 400
+
+source AudioClip { 
+
+loop TRUE 
+
+startTime 1 
+
+stopTime 0
+ 
+
+url [ "Sonidos/entorno.wav" ] 
+
+}	}
+
+
+
+												
